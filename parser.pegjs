@@ -120,7 +120,7 @@ RangeValues
 
 // 1-5 => [1, 2, 3, 4, 5]
 RangeValue
-  = a:Numbers '-' b:Numbers {
+  = a:Numbers ws? '-' ws? b:Numbers cm? ws? {
     var arr = [],
       aa = parseInt(a, 10),
       bb = parseInt(b, 10);
@@ -139,16 +139,16 @@ RangeValue
   }
 
 RangeNumber
-  = a:(Numbers) ',' ws? { return [parseInt(a, 10)]; }
+  = a:Numbers cm? ws? { return [parseInt(a, 10)]; }
 
 RangeText
   = LeftRightMiddleText / LeftRightText
 
 LeftRightMiddleText
-  = ws? a:Words ',' ws? b:Words ',' ws? c:Words { return { leftText: a, middleText: b, rightText: c }; }
+  = ws? a:Words cm ws? b:Words cm ws? c:Words { return { leftText: a, middleText: b, rightText: c }; }
 
 LeftRightText
-  = ws? a:Words ',' ws? b:Words { return { leftText: a, rightText: b }; }
+  = ws? a:Words cm ws? b:Words { return { leftText: a, rightText: b }; }
 
 Words
   = w:(Word / ws)+ { return w.join(''); }
@@ -176,3 +176,6 @@ nl "New line"
 
 ws "Whitespace"
  = ' '
+
+cm "Comma"
+  = ','
