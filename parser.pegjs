@@ -11,7 +11,7 @@ QuizText
 Question
   = n:Words nl a:Answers {
     var obj = {
-        question: n,
+        question: n.trim(),
         type: a[0].type, // grab type from first answer
       };
 
@@ -47,7 +47,9 @@ Radio
 
 CorrectRadio
   = '(' ws? '*' ws? v:Words? ')' ws? w:Words {
+    w = w.trim();
     if (v) {
+      v = v.trim();
       return { name: w, value: v, correct: true };
     } else {
       return { name: w, value: w.toLowerCase(), correct: true }
@@ -56,7 +58,9 @@ CorrectRadio
 
 OtherRadio
   = '(' ws? v:Words? ')' ws? w:Words {
+    w = w.trim();
     if (v) {
+      v = v.trim();
       return { name: w, value: v};
     } else {
       return { name: w, value: w.toLowerCase() }
@@ -69,7 +73,9 @@ Check
 
 CorrectCheck
   = '[' ws? '*' ws? v:Words? ']' ws? w:Words {
+    w = w.trim();
     if (v) {
+      v = v.trim();
       return { name: w, value: v, correct: true };
     } else {
       return { name: w, value: w.toLowerCase(), correct: true }
@@ -78,7 +84,9 @@ CorrectCheck
 
 OtherCheck
   = '[' ws? v:Words? ']' ws? w:Words {
+    w = w.trim();
     if (v) {
+      v = v.trim();
       return { name: w, value: v};
     } else {
       return { name: w, value: w.toLowerCase() }
@@ -91,12 +99,12 @@ Range
     var obj = {
       type: 'range',
       answer: v,
-      leftText: t.leftText,
-      rightText: t.rightText
+      leftText: t.leftText.trim(),
+      rightText: t.rightText.trim()
     };
 
     if (t.middleText) {
-      obj.middleText = t.middleText
+      obj.middleText = t.middleText.trim()
     }
 
     return obj;

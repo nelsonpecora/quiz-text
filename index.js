@@ -39,7 +39,7 @@ module.exports = (function() {
         peg$c0 = function(q) { return q; },
         peg$c1 = function(n, a) {
             var obj = {
-                question: n,
+                question: n.trim(),
                 type: a[0].type, // grab type from first answer
               };
 
@@ -71,14 +71,18 @@ module.exports = (function() {
         peg$c8 = ")",
         peg$c9 = { type: "literal", value: ")", description: "\")\"" },
         peg$c10 = function(v, w) {
+            w = w.trim();
             if (v) {
+              v = v.trim();
               return { name: w, value: v, correct: true };
             } else {
               return { name: w, value: w.toLowerCase(), correct: true }
             }
           },
         peg$c11 = function(v, w) {
+            w = w.trim();
             if (v) {
+              v = v.trim();
               return { name: w, value: v};
             } else {
               return { name: w, value: w.toLowerCase() }
@@ -97,12 +101,12 @@ module.exports = (function() {
             var obj = {
               type: 'range',
               answer: v,
-              leftText: t.leftText,
-              rightText: t.rightText
+              leftText: t.leftText.trim(),
+              rightText: t.rightText.trim()
             };
 
             if (t.middleText) {
-              obj.middleText = t.middleText
+              obj.middleText = t.middleText.trim()
             }
 
             return obj;
