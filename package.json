@@ -4,7 +4,8 @@
   "description": "Quick and easy markup for quizzes",
   "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "test": "npm run build && ./node_modules/.bin/mocha",
+    "build": "./node_modules/.bin/pegjs parser.pegjs index.js"
   },
   "repository": {
     "type": "git",
@@ -20,5 +21,13 @@
   "bugs": {
     "url": "https://github.com/yoshokatana/quiz-text/issues"
   },
-  "homepage": "https://github.com/yoshokatana/quiz-text#readme"
+  "homepage": "https://github.com/yoshokatana/quiz-text#readme",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "lodash": "^4.13.1",
+    "mocha": "^2.5.3"
+  },
+  "dependencies": {
+    "pegjs": "^0.9.0"
+  }
 }
