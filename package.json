@@ -1,0 +1,24 @@
+{
+  "name": "quiz-text",
+  "version": "0.0.1",
+  "description": "Quick and easy markup for quizzes",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yoshokatana/quiz-text.git"
+  },
+  "keywords": [
+    "quiz",
+    "markup",
+    "parser"
+  ],
+  "author": "Nelson Pecora",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/yoshokatana/quiz-text/issues"
+  },
+  "homepage": "https://github.com/yoshokatana/quiz-text#readme"
+}
