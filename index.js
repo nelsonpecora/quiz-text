@@ -70,24 +70,8 @@ module.exports = (function() {
         peg$c7 = { type: "literal", value: "*", description: "\"*\"" },
         peg$c8 = ")",
         peg$c9 = { type: "literal", value: ")", description: "\")\"" },
-        peg$c10 = function(v, w) {
-            w = w.trim();
-            if (v) {
-              v = v.trim();
-              return { name: w, value: v, correct: true };
-            } else {
-              return { name: w, value: w.toLowerCase(), correct: true }
-            }
-          },
-        peg$c11 = function(v, w) {
-            w = w.trim();
-            if (v) {
-              v = v.trim();
-              return { name: w, value: v};
-            } else {
-              return { name: w, value: w.toLowerCase() }
-            }
-          },
+        peg$c10 = function(v, w) { return correct(v, w); },
+        peg$c11 = function(v, w) { return other(v, w); },
         peg$c12 = function(c) { return { answer: c, type: 'checkbox' }},
         peg$c13 = "[",
         peg$c14 = { type: "literal", value: "[", description: "\"[\"" },
@@ -120,9 +104,11 @@ module.exports = (function() {
         peg$c24 = { type: "literal", value: "-", description: "\"-\"" },
         peg$c25 = function(a, b) {
             var arr = [],
-              aa = parseInt(a, 10),
-              bb = parseInt(b, 10);
+              aa = int(a),
+              bb = int(b);
 
+            // loop through ranges, either forward or backward
+            // e.g. 1-5, 5-1 (inclusive)
             if (bb >= aa) {
               for (;(bb + 1) - aa; aa++) {
                 arr.push(aa);
@@ -135,14 +121,14 @@ module.exports = (function() {
 
             return arr;
           },
-        peg$c26 = function(a) { return [parseInt(a, 10)]; },
+        peg$c26 = function(a) { return [int(a)]; },
         peg$c27 = function(a, b, c) { return { leftText: a, middleText: b, rightText: c }; },
         peg$c28 = function(a, b) { return { leftText: a, rightText: b }; },
-        peg$c29 = function(w) { return w.join(''); },
-        peg$c30 = function(l) { return l.join(''); },
+        peg$c29 = function(w) { return join(w); },
+        peg$c30 = function(l) { return join(l); },
         peg$c31 = /^[a-zA-Z]/,
         peg$c32 = { type: "class", value: "[a-zA-Z]", description: "[a-zA-Z]" },
-        peg$c33 = function(n) { return n.join(''); },
+        peg$c33 = function(n) { return join(n); },
         peg$c34 = /^[0-9]/,
         peg$c35 = { type: "class", value: "[0-9]", description: "[0-9]" },
         peg$c36 = { type: "other", description: "QuestionMark" },
@@ -1355,6 +1341,40 @@ module.exports = (function() {
 
       return s0;
     }
+
+
+      // array => string
+      function join(array) {
+        return array.join('');
+      }
+
+      // string => number
+      function int(str) {
+        return parseInt(str, 10);
+      }
+
+      // parse correct radio/checkbox answer
+      function correct(v, w) {
+        w = w.trim();
+        if (v) {
+          v = v.trim();
+          return { name: w, value: v, correct: true };
+        } else {
+          return { name: w, value: w.toLowerCase(), correct: true }
+        }
+      }
+
+      // parse other radio/checkbox answer
+      function other(v, w) {
+        w = w.trim();
+        if (v) {
+          v = v.trim();
+          return { name: w, value: v};
+        } else {
+          return { name: w, value: w.toLowerCase() }
+        }
+      }
+
 
     peg$result = peg$startRuleFunction();
 

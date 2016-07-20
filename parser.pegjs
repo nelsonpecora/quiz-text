@@ -5,6 +5,40 @@
  * Generates JSON-formatted quiz questions from plaintext
  */
 
+{
+  // array => string
+  function join(array) {
+    return array.join('');
+  }
+
+  // string => number
+  function int(str) {
+    return parseInt(str, 10);
+  }
+
+  // parse correct radio/checkbox answer
+  function correct(v, w) {
+    w = w.trim();
+    if (v) {
+      v = v.trim();
+      return { name: w, value: v, correct: true };
+    } else {
+      return { name: w, value: w.toLowerCase(), correct: true }
+    }
+  }
+
+  // parse other radio/checkbox answer
+  function other(v, w) {
+    w = w.trim();
+    if (v) {
+      v = v.trim();
+      return { name: w, value: v};
+    } else {
+      return { name: w, value: w.toLowerCase() }
+    }
+  }
+}
+
 QuizText
  = q:Question* { return q; }
 
@@ -46,52 +80,20 @@ Radio
   = r:(CorrectRadio / OtherRadio) { return { answer: r, type: 'radio' }}
 
 CorrectRadio
-  = '(' ws? '*' ws? v:Words? ')' ws? w:Words {
-    w = w.trim();
-    if (v) {
-      v = v.trim();
-      return { name: w, value: v, correct: true };
-    } else {
-      return { name: w, value: w.toLowerCase(), correct: true }
-    }
-  }
+  = '(' ws? '*' ws? v:Words? ')' ws? w:Words { return correct(v, w); }
 
 OtherRadio
-  = '(' ws? v:Words? ')' ws? w:Words {
-    w = w.trim();
-    if (v) {
-      v = v.trim();
-      return { name: w, value: v};
-    } else {
-      return { name: w, value: w.toLowerCase() }
-    }
-  }
+  = '(' ws? v:Words? ')' ws? w:Words { return other(v, w); }
 
 // checkboxes
 Check
   = c:(CorrectCheck / OtherCheck) { return { answer: c, type: 'checkbox' }}
 
 CorrectCheck
-  = '[' ws? '*' ws? v:Words? ']' ws? w:Words {
-    w = w.trim();
-    if (v) {
-      v = v.trim();
-      return { name: w, value: v, correct: true };
-    } else {
-      return { name: w, value: w.toLowerCase(), correct: true }
-    }
-  }
+  = '[' ws? '*' ws? v:Words? ']' ws? w:Words { return correct(v, w); }
 
 OtherCheck
-  = '[' ws? v:Words? ']' ws? w:Words {
-    w = w.trim();
-    if (v) {
-      v = v.trim();
-      return { name: w, value: v};
-    } else {
-      return { name: w, value: w.toLowerCase() }
-    }
-  }
+  = '[' ws? v:Words? ']' ws? w:Words { return other(v, w); }
 
 // range
 Range
@@ -122,9 +124,11 @@ RangeValues
 RangeValue
   = a:Numbers ws? '-' ws? b:Numbers cm? ws? {
     var arr = [],
-      aa = parseInt(a, 10),
-      bb = parseInt(b, 10);
+      aa = int(a),
+      bb = int(b);
 
+    // loop through ranges, either forward or backward
+    // e.g. 1-5, 5-1 (inclusive)
     if (bb >= aa) {
       for (;(bb + 1) - aa; aa++) {
         arr.push(aa);
@@ -139,7 +143,7 @@ RangeValue
   }
 
 RangeNumber
-  = a:Numbers cm? ws? { return [parseInt(a, 10)]; }
+  = a:Numbers cm? ws? { return [int(a)]; }
 
 RangeText
   = LeftRightMiddleText / LeftRightText
@@ -151,16 +155,16 @@ LeftRightText
   = ws? a:Words cm ws? b:Words { return { leftText: a, rightText: b }; }
 
 Words
-  = w:(Word / ws)+ { return w.join(''); }
+  = w:(Word / ws)+ { return join(w); }
 
 Word
- = l:(Letter / Number / qm / apos)+ { return l.join(''); }
+ = l:(Letter / Number / qm / apos)+ { return join(l); }
 
 Letter
  = [a-zA-Z]
 
 Numbers
-  = n:Number+ { return n.join(''); }
+  = n:Number+ { return join(n); }
 
 Number
   = [0-9]
