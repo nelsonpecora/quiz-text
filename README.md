@@ -1,5 +1,8 @@
 # quiz-text
-Quick and easy markup for quizzes!
+
+[![CircleCI](https://circleci.com/gh/yoshokatana/quiz-text.svg?style=svg)](https://circleci.com/gh/yoshokatana/quiz-text)
+
+💡Quick and easy markup for quizzes!
 
 # Install
 
