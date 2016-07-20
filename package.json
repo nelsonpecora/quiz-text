@@ -1,6 +1,6 @@
 {
   "name": "quiz-text",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Quick and easy markup for quizzes",
   "main": "index.js",
   "scripts": {
