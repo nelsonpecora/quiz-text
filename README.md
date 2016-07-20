@@ -17,8 +17,8 @@ Question 1: Why would I use this?
 (*) Some questions might have a right answer
 (different-value) Answers might have different values than labels
 
-What about multi-select?
-[ ] Write multi-select (colloquially "checkbox") questions with square brackets
+What about checkboxes?
+[ ] Write checkbox ("multi-select") questions with square brackets
 [*] These can have...
 [*] Multiple right answers, or just one
 [*other-val] They can also have different values than labels
@@ -76,7 +76,7 @@ These would get parsed into friendly JSON:
 
 Radio buttons and checkboxes are denoted by parenthesis `( )` and square brackets `[ ]`, respectively. Answers don't _need_ to be correct or incorrect, but you may denote one or more correct answers by putting an asterisk `*` inside the parenthesis/brackets.
 
-**TIP:** Don't specify more than one correct answer for radio questions, unless you allow your users to select more than one answer in your UI. Radio questions are intended to be single-select, whereas checkbox questions are intended to be multi-select.
+**TIP:** Don't specify more than one correct answer for radio questions, unless you allow your users to select more than one answer in your UI. Radio questions are intended to be single-select, whereas checkbox questions are intended to be multi-select. Currently there's no difference in their parsed output, but this might change in a future major version.
 
 You may optionally have a different value for an answer than the text to the right of the parenthesis/brackets. To do so, add those values inside them (_after_ the asterisk, for correct answers).
 
@@ -105,3 +105,7 @@ You can also add middle text
 Mix and match commas and hyphens for weird ranges
 {1, 1, 2, 3-5} Less, Fibonacci, More
 ```
+
+# Contributing
+
+This is an ongoing project, and I'll add more fundamental quiz types as I think of them. The parser (`parser.pegjs`) uses [PEG.js](http://pegjs.org/) and gets compiled to `index.js` when testing (and with `npm run build`). If you find a bug, please submit a PR with a failing unit test (or write a new unit test that captures it) and I'll help diagnose the error.
