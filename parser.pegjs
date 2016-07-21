@@ -80,20 +80,20 @@ Radio
   = r:(CorrectRadio / OtherRadio) { return { answer: r, type: 'radio' }}
 
 CorrectRadio
-  = '(' ws? '*' ws? v:Words? ')' ws? w:Words { return correct(v, w); }
+  = '(' ws? '*' ws? v:Words? ')' ws? w:HTML { return correct(v, w); }
 
 OtherRadio
-  = '(' ws? v:Words? ')' ws? w:Words { return other(v, w); }
+  = '(' ws? v:Words? ')' ws? w:HTML { return other(v, w); }
 
 // checkboxes
 Check
   = c:(CorrectCheck / OtherCheck) { return { answer: c, type: 'checkbox' }}
 
 CorrectCheck
-  = '[' ws? '*' ws? v:Words? ']' ws? w:Words { return correct(v, w); }
+  = '[' ws? '*' ws? v:Words? ']' ws? w:HTML { return correct(v, w); }
 
 OtherCheck
-  = '[' ws? v:Words? ']' ws? w:Words { return other(v, w); }
+  = '[' ws? v:Words? ']' ws? w:HTML { return other(v, w); }
 
 // range
 Range
@@ -149,16 +149,22 @@ RangeText
   = LeftRightMiddleText / LeftRightText
 
 LeftRightMiddleText
-  = ws? a:Words cm ws? b:Words cm ws? c:Words { return { leftText: a, middleText: b, rightText: c }; }
+  = ws? a:HTML cm ws? b:HTML cm ws? c:HTML { return { leftText: a, middleText: b, rightText: c }; }
 
 LeftRightText
-  = ws? a:Words cm ws? b:Words { return { leftText: a, rightText: b }; }
+  = ws? a:HTML cm ws? b:HTML { return { leftText: a, rightText: b }; }
 
 Words
   = w:(Word / ws)+ { return join(w); }
 
 Word
  = l:(Letter / Number / qm / apos)+ { return join(l); }
+
+HTML
+  = c:Char+ { return join(c); }
+
+Char
+  = ![\n,] c:. { return c; }
 
 Letter
  = [a-zA-Z]
