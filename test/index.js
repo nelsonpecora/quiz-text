@@ -1,6 +1,6 @@
 'use strict';
 
-const parse = require('./').parse,
+const parse = require('../').parse,
   expect = require('chai').expect,
   question = 'Question?',
   text = 'answer',
