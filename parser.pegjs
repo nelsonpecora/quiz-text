@@ -43,7 +43,7 @@ QuizText
  = q:Question* { return q; }
 
 Question
-  = n:Words nl a:Answers {
+  = n:HTML nl a:Answers {
     var obj = {
         question: n.trim(),
         type: a[0].type, // grab type from first answer

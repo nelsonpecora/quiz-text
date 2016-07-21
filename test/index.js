@@ -3,12 +3,15 @@
 const parse = require('../').parse,
   expect = require('chai').expect,
   question = 'Question?',
+  htmlQuestion = 'What\'s a <strong>GOOD</strong> question?',
   text = 'answer',
+  htmlText = '<span class="ok">Cool Answer</span>',
   val = 'val',
   answer = { name: text, value: text },
   answerWithVal = { name: text, value: val },
   correctAnswer = { name: text, value: text, correct: true },
-  correctAnswerWithVal = { name: text, value: val, correct: true };
+  correctAnswerWithVal = { name: text, value: val, correct: true },
+  htmlAnswer = { name: htmlText, value: val };
 
 describe('Quiz Text', function () {
   describe('Radio', function () {
@@ -31,6 +34,14 @@ describe('Quiz Text', function () {
       expect(parse(`${question}\n( ) ${text}`)[0].answers).to.deep.equal([answer]);
       expect(parse(`${question}\n()${text}`)[0].answers).to.deep.equal([answer]);
       expect(parse(`${question}\n${radio} `)[0].answers).to.deep.equal([answer]);
+    });
+
+    it('passes through html in questions', function () {
+      expect(parse(`${htmlQuestion}\n${radio}`)[0].question).to.equal(htmlQuestion);
+    });
+
+    it('passes through html in answers', function () {
+      expect(parse(`${question}\n(val) ${htmlText}`)[0].answers).to.deep.equal([htmlAnswer]);
     });
 
     it('parses correct answers', function () {
@@ -65,6 +76,14 @@ describe('Quiz Text', function () {
       expect(parse(`${question}\n[ ] ${text}`)[0].answers).to.deep.equal([answer]);
       expect(parse(`${question}\n[]${text}`)[0].answers).to.deep.equal([answer]);
       expect(parse(`${question}\n${checkbox} `)[0].answers).to.deep.equal([answer]);
+    });
+
+    it('passes through html in questions', function () {
+      expect(parse(`${htmlQuestion}\n${checkbox}`)[0].question).to.equal(htmlQuestion);
+    });
+
+    it('passes through html in answers', function () {
+      expect(parse(`${question}\n[val] ${htmlText}`)[0].answers).to.deep.equal([htmlAnswer]);
     });
 
     it('parses correct answers', function () {
@@ -129,6 +148,20 @@ describe('Quiz Text', function () {
       expect(parse(`${question}\n{1-2}left,right `)[0].leftText).to.equal('left');
       expect(parse(`${question}\n{1-2} left, right `)[0].rightText).to.equal('right');
       expect(parse(`${question}\n{1-2} left, middle, right `)[0].middleText).to.equal('middle');
+    });
+
+    it('passes through html in questions', function () {
+      expect(parse(`${htmlQuestion}\n${range}`)[0].question).to.equal(htmlQuestion);
+    });
+
+    it('passes through html in answers', function () {
+      const left = '<span class="left">left</span>',
+        middle = '<span class="middle">middle</span>',
+        right = '<span class="right">right</span>';
+
+      expect(parse(`${question}\n{1-3} ${left}, right`)[0].leftText).to.equal(left);
+      expect(parse(`${question}\n{1-3} left, ${right}`)[0].rightText).to.equal(right);
+      expect(parse(`${question}\n{1-3} left, ${middle}, right`)[0].middleText).to.equal(middle);
     });
   });
 });

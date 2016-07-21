@@ -360,7 +360,7 @@ module.exports = (function() {
       var s0, s1, s2, s3;
 
       s0 = peg$currPos;
-      s1 = peg$parseWords();
+      s1 = peg$parseHTML();
       if (s1 !== peg$FAILED) {
         s2 = peg$parsenl();
         if (s2 !== peg$FAILED) {
