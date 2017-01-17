@@ -27,7 +27,7 @@ What about checkboxes?
 [*other-val] They can also have different values than labels
 
 And Ranges? How cool are they on a scale of 1 to 10?
-{1-10} Dad With a Rat Tail, Astronaut On A Skateboard
+{1-10} Dad With a Rat Tail | Astronaut On A Skateboard
 ```
 
 These would get parsed into friendly JSON:
@@ -93,20 +93,20 @@ Don't worry about whitespace. All values and labels will be trimmed when parsed.
 
 ## Range
 
-Range is similar to radio, but it's a syntactical sugar for specifying questions where the answers are simply a range between two numbers. They can go either direction, and you can also specify each number individually. Ranges are denoted by curly brackets `{ }` with comma-delineated text intended for the left side and right side of the question after them.
+Range is similar to radio, but it's a syntactical sugar for specifying questions where the answers are simply a range between two numbers. They can go either direction, and you can also specify each number individually. Ranges are denoted by curly brackets `{ }` with pipe-delineated (`|`) text intended for the left side and right side (and optionally middle) of the question after them.
 
 ```
 Simple one to five range
-{1-5} Less, More
+{1-5} Less | More
 
 Reverse range, useful for doing different weighting in personality quizzes
-{10-0} Cooler, Warmer
+{10-0} Cooler | Warmer
 
 You can also add middle text
-{1-5} Left, Center, Right
+{1-5} Left | Center | Right
 
 Mix and match commas and hyphens for weird ranges
-{1, 1, 2, 3-5} Less, Fibonacci, More
+{1, 1, 2, 3-5} Less | Fibonacci | More
 ```
 
 # Contributing
