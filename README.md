@@ -1,6 +1,6 @@
 # quiz-text
 
-[![CircleCI](https://circleci.com/gh/yoshokatana/quiz-text.svg?style=svg)](https://circleci.com/gh/yoshokatana/quiz-text)
+[![CircleCI](https://circleci.com/gh/nelsonpecora/quiz-text.svg?style=svg)](https://circleci.com/gh/nelsonpecora/quiz-text)
 
 💡Quick and easy markup for quizzes!
 
