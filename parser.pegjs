@@ -149,13 +149,13 @@ RangeText
   = LeftRightMiddleText / LeftRightText
 
 LeftRightMiddleText
-  = ws? a:HTML cm ws? b:HTML cm ws? c:HTML { return { leftText: a, middleText: b, rightText: c }; }
+  = ws? a:HTML pipe ws? b:HTML pipe ws? c:HTML { return { leftText: a, middleText: b, rightText: c }; }
 
 LeftRightText
-  = ws? a:HTML cm ws? b:HTML { return { leftText: a, rightText: b }; }
+  = ws? a:HTML pipe ws? b:HTML { return { leftText: a, rightText: b }; }
 
 Words
-  = w:(Word / ws)+ { return join(w); }
+  = w:(Word / ws / cm)+ { return join(w); }
 
 Word
  = l:(Letter / Number / qm / apos)+ { return join(l); }
@@ -164,7 +164,7 @@ HTML
   = c:Char+ { return join(c); }
 
 Char
-  = ![\n,] c:. { return c; }
+  = ![\n|] c:. { return c; }
 
 Letter
  = [a-zA-Z]
@@ -189,3 +189,6 @@ ws "Whitespace"
 
 cm "Comma"
   = ','
+
+pipe "Pipe"
+  = '|'

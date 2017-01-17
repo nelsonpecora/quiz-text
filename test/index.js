@@ -44,6 +44,14 @@ describe('Quiz Text', function () {
       expect(parse(`${question}\n(val) ${htmlText}`)[0].answers).to.deep.equal([htmlAnswer]);
     });
 
+    it('allows commas in questions', function () {
+      expect(parse(`Good, or bad?\n${radio}`)[0].question).to.equal('Good, or bad?');
+    });
+
+    it('allows commas in answers', function () {
+      expect(parse(`${question}\n(val) Cool, Answer`)[0].answers).to.deep.equal([{ name: 'Cool, Answer', value: val }]);
+    });
+
     it('parses correct answers', function () {
       const correctRadio = `(*) ${text}`;
 
@@ -100,8 +108,8 @@ describe('Quiz Text', function () {
   });
 
   describe('Range', function () {
-    const range = '{1-3} left, right',
-      rangeWithMiddle = '{1-3} left, middle, right';
+    const range = '{1-3} left | right',
+      rangeWithMiddle = '{1-3} left | middle | right';
 
     it('parses question', function () {
       expect(parse(`${question}\n${range}`)[0].question).to.equal(question);
@@ -113,18 +121,18 @@ describe('Quiz Text', function () {
 
     it('parses range with commas', function () {
       // forwards
-      expect(parse(`${question}\n{1,2,3} left, right`)[0].answers).to.deep.equal([1, 2, 3]);
-      expect(parse(`${question}\n{2,4,6} left, right`)[0].answers).to.deep.equal([2, 4, 6]);
+      expect(parse(`${question}\n{1,2,3} left | right`)[0].answers).to.deep.equal([1, 2, 3]);
+      expect(parse(`${question}\n{2,4,6} left | right`)[0].answers).to.deep.equal([2, 4, 6]);
       // backwards
-      expect(parse(`${question}\n{3, 2, 1} left, right`)[0].answers).to.deep.equal([3, 2, 1]);
+      expect(parse(`${question}\n{3, 2, 1} left | right`)[0].answers).to.deep.equal([3, 2, 1]);
       // any direction!
-      expect(parse(`${question}\n{6,2,4} left, right`)[0].answers).to.deep.equal([6, 2, 4]);
+      expect(parse(`${question}\n{6,2,4} left | right`)[0].answers).to.deep.equal([6, 2, 4]);
     });
 
     it('parses ranges with commas and dashes', function () {
-      expect(parse(`${question}\n{1-3, 5} left, right`)[0].answers).to.deep.equal([1, 2, 3, 5]);
-      expect(parse(`${question}\n{1, 3-5, 7} left, right`)[0].answers).to.deep.equal([1, 3, 4, 5, 7]);
-      expect(parse(`${question}\n{1, 3-5} left, right`)[0].answers).to.deep.equal([1, 3, 4, 5]);
+      expect(parse(`${question}\n{1-3, 5} left | right`)[0].answers).to.deep.equal([1, 2, 3, 5]);
+      expect(parse(`${question}\n{1, 3-5, 7} left | right`)[0].answers).to.deep.equal([1, 3, 4, 5, 7]);
+      expect(parse(`${question}\n{1, 3-5} left | right`)[0].answers).to.deep.equal([1, 3, 4, 5]);
     });
 
     it('allows left and right text', function () {
@@ -140,14 +148,14 @@ describe('Quiz Text', function () {
       // question
       expect(parse(` ${question} \n${range}`)[0].question).to.equal(question);
       // ranges
-      expect(parse(`${question}\n{ 1-2 } left, right`)[0].answers).to.deep.equal([1, 2]);
-      expect(parse(`${question}\n{1 - 2} left, right`)[0].answers).to.deep.equal([1, 2]);
-      expect(parse(`${question}\n{1 - 2, 3 } left, right`)[0].answers).to.deep.equal([1, 2, 3]);
-      expect(parse(`${question}\n{1, 2- 3 } left, right`)[0].answers).to.deep.equal([1, 2, 3]);
+      expect(parse(`${question}\n{ 1-2 } left| right`)[0].answers).to.deep.equal([1, 2]);
+      expect(parse(`${question}\n{1 - 2} left| right`)[0].answers).to.deep.equal([1, 2]);
+      expect(parse(`${question}\n{1 - 2, 3 } left| right`)[0].answers).to.deep.equal([1, 2, 3]);
+      expect(parse(`${question}\n{1, 2- 3 } left| right`)[0].answers).to.deep.equal([1, 2, 3]);
       // text
-      expect(parse(`${question}\n{1-2}left,right `)[0].leftText).to.equal('left');
-      expect(parse(`${question}\n{1-2} left, right `)[0].rightText).to.equal('right');
-      expect(parse(`${question}\n{1-2} left, middle, right `)[0].middleText).to.equal('middle');
+      expect(parse(`${question}\n{1-2}left|right `)[0].leftText).to.equal('left');
+      expect(parse(`${question}\n{1-2} left |right `)[0].rightText).to.equal('right');
+      expect(parse(`${question}\n{1-2} left| middle | right `)[0].middleText).to.equal('middle');
     });
 
     it('passes through html in questions', function () {
@@ -159,9 +167,9 @@ describe('Quiz Text', function () {
         middle = '<span class="middle">middle</span>',
         right = '<span class="right">right</span>';
 
-      expect(parse(`${question}\n{1-3} ${left}, right`)[0].leftText).to.equal(left);
-      expect(parse(`${question}\n{1-3} left, ${right}`)[0].rightText).to.equal(right);
-      expect(parse(`${question}\n{1-3} left, ${middle}, right`)[0].middleText).to.equal(middle);
+      expect(parse(`${question}\n{1-3} ${left}| right`)[0].leftText).to.equal(left);
+      expect(parse(`${question}\n{1-3} left| ${right}`)[0].rightText).to.equal(right);
+      expect(parse(`${question}\n{1-3} left | ${middle} | right`)[0].middleText).to.equal(middle);
     });
   });
 });
