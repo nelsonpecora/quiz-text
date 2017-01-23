@@ -109,7 +109,8 @@ describe('Quiz Text', function () {
 
   describe('Range', function () {
     const range = '{1-3} left | right',
-      rangeWithMiddle = '{1-3} left | middle | right';
+      rangeWithMiddle = '{1-3} left | middle | right',
+      rangeWithCategory = '{1-3} left | right\n-A cool category-';
 
     it('parses question', function () {
       expect(parse(`${question}\n${range}`)[0].question).to.equal(question);
@@ -142,6 +143,14 @@ describe('Quiz Text', function () {
 
     it('allows middle text', function () {
       expect(parse(`${question}\n${rangeWithMiddle}`)[0].middleText).to.equal('middle');
+    });
+
+    it('parses range with category', function () {
+      expect(parse(`${question}\n${rangeWithCategory}`)[0].category).to.equal('A cool category');
+    });
+
+    it('parses range without category', function () {
+      expect(parse(`${question}\n${rangeWithMiddle}`)[0].category).to.equal(undefined);
     });
 
     it('disregards whitespace', function () {
