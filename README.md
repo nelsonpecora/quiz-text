@@ -95,6 +95,8 @@ Don't worry about whitespace. All values and labels will be trimmed when parsed.
 
 Range is similar to radio, but it's a syntactical sugar for specifying questions where the answers are simply a range between two numbers. They can go either direction, and you can also specify each number individually. Ranges are denoted by curly brackets `{ }` with pipe-delineated (`|`) text intended for the left side and right side (and optionally middle) of the question after them.
 
+You may optionally have a `category` field that would be denoted by dashes (`-`). 
+
 ```
 Simple one to five range
 {1-5} Less | More
@@ -107,6 +109,10 @@ You can also add middle text
 
 Mix and match commas and hyphens for weird ranges
 {1, 1, 2, 3-5} Less | Fibonacci | More
+
+A question with a category
+{1-5} Less | More
+-A Cool Category-
 ```
 
 # Contributing

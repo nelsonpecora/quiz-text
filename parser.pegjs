@@ -66,6 +66,11 @@ Question
       obj.rightText = a[0].rightText
     }
 
+    // adds property of category if there is one
+    if (a[0].category) {
+      obj.category = a[0].category
+    }
+
     return obj;
   }
 
@@ -97,7 +102,7 @@ OtherCheck
 
 // range
 Range
-  = '{' ws? v:RangeValues ws? '}' t:RangeText {
+  = '{' ws? v:RangeValues ws? '}' t:RangeText nl? c:Category? {
     var obj = {
       type: 'range',
       answer: v,
@@ -109,8 +114,16 @@ Range
       obj.middleText = t.middleText.trim()
     }
 
+    if (c) {
+      obj.category = c.category.trim()
+    }
+
     return obj;
   }
+
+// category
+Category
+  = ws? dash c:Words? dash { return { category: c }; }
 
 // 1,3-5 => [1, 3, 4, 5]
 RangeValues
@@ -192,3 +205,6 @@ cm "Comma"
 
 pipe "Pipe"
   = '|'
+
+dash "Dash"
+  = '-'
