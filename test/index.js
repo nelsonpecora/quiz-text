@@ -15,7 +15,11 @@ const parse = require('../').parse,
 
 describe('Quiz Text', function () {
   describe('Radio', function () {
-    const radio = `() ${text}`;
+    const radio = `() ${text}`,
+      correctTextResult = `Yes, that's correct`,
+      correctText = `^${correctTextResult}^`,
+      incorrectTextResult = `Sorry, that's incorrect`,
+      incorrectText = `<${incorrectTextResult}<`;
 
     it('parses question', function () {
       expect(parse(`${question}\n${radio}`)[0].question).to.equal(question);
@@ -61,6 +65,19 @@ describe('Quiz Text', function () {
     it('parses answers with values', function () {
       expect(parse(`${question}\n(val) answer`)[0].answers).to.deep.equal([answerWithVal]);
       expect(parse(`${question}\n(*val) answer`)[0].answers).to.deep.equal([correctAnswerWithVal]);
+    });
+
+    it('allows correct answer text result', function () {
+      expect(parse(`${question}\n${correctText}\n${incorrectText}\n${radio}\n${radio}`)[0].correctText).to.deep.equal(correctTextResult);
+    });
+
+    it('allows incorrect answer text result', function () {
+      expect(parse(`${question}\n${correctText}\n${incorrectText}\n${radio}\n${radio}`)[0].incorrectText).to.deep.equal(incorrectTextResult);
+    });
+
+    it('allows for no correct or incorrect text results', function () {
+      expect(parse(`${question}\n${radio}\n${radio}`)[0].incorrectText).to.deep.equal(undefined);
+      expect(parse(`${question}\n${radio}\n${radio}`)[0].correctText).to.deep.equal(undefined);
     });
   });
 
