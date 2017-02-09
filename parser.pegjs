@@ -71,6 +71,15 @@ Question
       obj.category = a[0].category
     }
 
+    // adds properties of correct text and incorrect text results if they exist
+    if (a[0].correctText) {
+      obj.correctText = a[0].correctText
+    }
+
+    if (a[0].incorrectText) {
+      obj.incorrectText = a[0].incorrectText
+    }
+
     return obj;
   }
 
@@ -82,13 +91,34 @@ Option
 
 // radio buttons
 Radio
-  = r:(CorrectRadio / OtherRadio) { return { answer: r, type: 'radio' }}
+  = c:CorrectText? nl? i:IncorrectText? nl? r:(CorrectRadio / OtherRadio) { 
+    var obj = { 
+      type: 'radio',
+      answer: r
+    };
+    
+    if (c) {
+      obj.correctText = c.correctText.trim()
+    }
+
+    if (i) {
+      obj.incorrectText = i.incorrectText.trim()
+    }
+
+    return obj;
+  }
 
 CorrectRadio
   = '(' ws? '*' ws? v:Words? ')' ws? w:HTML { return correct(v, w); }
 
 OtherRadio
   = '(' ws? v:Words? ')' ws? w:HTML { return other(v, w); }
+
+CorrectText
+  = ws? caret c:Words? caret { return { correctText: c }; }
+
+IncorrectText
+  = ws? lt i:Words? lt { return { incorrectText: i }; }
 
 // checkboxes
 Check
@@ -208,3 +238,9 @@ pipe "Pipe"
 
 dash "Dash"
   = '-'
+
+caret "Caret"
+  = '^'
+
+lt "LessThan"
+  = '<'

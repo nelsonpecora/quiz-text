@@ -83,8 +83,18 @@ Radio buttons and checkboxes are denoted by parenthesis `( )` and square bracket
 
 You may optionally have a different value for an answer than the text to the right of the parenthesis/brackets. To do so, add those values inside them (_after_ the asterisk, for correct answers).
 
+For multiple choice questions where you would select an answer and get a result of whether you selected a correct or incorrect answer, you may optionally have correct result text and incorrect result text fields. Correct result text is denoted by carets `^ ^`, and incorrect result text is denoted by less than symbols `< <`. These will come before the radio button answers.
+
 ```
 Question
+(* value1 ) Cool Label 1
+(value2) Cool Label 2
+```
+
+```
+Multiple choice question with correct and incorrect text
+^That's the correct answer^
+<Incorrect, the right answer was actually Cool Label 1<
 (* value1 ) Cool Label 1
 (value2) Cool Label 2
 ```
