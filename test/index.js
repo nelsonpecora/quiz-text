@@ -17,9 +17,9 @@ describe('Quiz Text', function () {
   describe('Radio', function () {
     const radio = `() ${text}`,
       correctTextResult = `Yes, that's correct`,
-      correctText = `^${correctTextResult}^`,
+      correctText = `^${correctTextResult}`,
       incorrectTextResult = `Sorry, that's incorrect`,
-      incorrectText = `<${incorrectTextResult}<`;
+      incorrectText = `<${incorrectTextResult}`;
 
     it('parses question', function () {
       expect(parse(`${question}\n${radio}`)[0].question).to.equal(question);
