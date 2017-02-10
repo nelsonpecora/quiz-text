@@ -115,10 +115,10 @@ OtherRadio
   = '(' ws? v:Words? ')' ws? w:HTML { return other(v, w); }
 
 CorrectText
-  = ws? caret c:Words? caret { return { correctText: c }; }
+  = ws? caret c:HTML? { return { correctText: c }; }
 
 IncorrectText
-  = ws? lt i:Words? lt { return { incorrectText: i }; }
+  = ws? lt i:HTML? { return { incorrectText: i }; }
 
 // checkboxes
 Check
