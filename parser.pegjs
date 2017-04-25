@@ -52,7 +52,7 @@ Question
     if (a[0].type === 'range') {
       obj.answers = a[0].answer;
     } else {
-      obj.answers = a.map(obj => obj.answer);
+      obj.answers = a.map(function(obj){ return obj.answer});
     }
 
     // add properties for ranges
