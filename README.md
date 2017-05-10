@@ -1,5 +1,7 @@
 # quiz-text
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/nelsonpecora/quiz-text.svg)](https://greenkeeper.io/)
+
 [![CircleCI](https://circleci.com/gh/nelsonpecora/quiz-text.svg?style=svg)](https://circleci.com/gh/nelsonpecora/quiz-text)
 
 💡Quick and easy markup for quizzes!
