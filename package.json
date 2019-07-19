@@ -24,7 +24,7 @@
   "homepage": "https://github.com/nelsonpecora/quiz-text#readme",
   "devDependencies": {
     "chai": "^4.0.1",
-    "lodash": "^4.13.1",
+    "lodash": "^4.17.15",
     "mocha": "^6.0.0"
   },
   "dependencies": {
